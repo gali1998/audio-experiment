@@ -8,6 +8,7 @@
  * or just delete them.
  * @imageDir images
  * @miscDir html
+ * @audioDir audio
  */
 
 // You can import stylesheets (.scss or .css).
@@ -19,6 +20,7 @@ import * as instructions from "./components/instructionsComponent";
 import * as participantDetails from "./components/participantDetailsComponent";
 
 import { showStimProcedure } from "./procedures/showStimProcedure";
+import { familiarityProcedure } from "./procedures/FamiliarityProcedure";
 
 import EgoziService from "./Services/EgoziService";
 import NutellaService from "./Services/NutellaService";
@@ -67,7 +69,7 @@ export async function run({ assetPaths, input = {}, environment }) {
   timeline.push(getParticipantIdFromUrl);
 
   timeline.push(participantDetails.default.getTrial());
-  timeline.push(consent.default.getConsentTrial())
+  //timeline.push(consent.default.getConsentTrial())
 
   // Switch to fullscreen
   timeline.push({
@@ -77,9 +79,11 @@ export async function run({ assetPaths, input = {}, environment }) {
 
   document.addEventListener("fullscreenchange", fullScreenChangeHandler)
 
-  timeline.push(instructions.default.getTrial());
+  //timeline.push(instructions.default.getTrial());
 
-  timeline.push((new showStimProcedure("stimuli", "stim", 4, "jpg")).getProcedure());
+  timeline.push((new showStimProcedure(assetPaths["audio"])).getProcedure());
+
+  timeline.push((new familiarityProcedure(assetPaths["audio"])).getProcedure());
 
   let sendDataToServer = {
     type: CallFunctionPlugin,
@@ -98,7 +102,7 @@ export async function run({ assetPaths, input = {}, environment }) {
   let endMessage = {
     type: HtmlKeyboardResponsePlugin,
     stimulus: '<p style="font-size: 48px;">Thank you!</p>',
-    choices: jsPsych.NO_KEYS
+    choices: "NO_KEYS"
   };
 
   timeline.push(endMessage)
