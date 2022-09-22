@@ -36,6 +36,8 @@ export class showStimProcedure {
 
             let chosenAudios = stats.sample(paths, 2);
             timelineVariables.push(audioMatchingComponent.getTrial(chosenAudios[0], chosenAudios[1]));
+
+            console.log(chosenAudios[0] + " " + chosenAudios[1])
         }
 
         let pairs = stats.combinations(ids, 2);
@@ -45,16 +47,15 @@ export class showStimProcedure {
             let relevantPaths = this.assetPaths.filter(path => path.includes(path));
             let paths = relevantPaths.filter(path => path.includes(pair[0]));
 
-            let audio1 = stats.sample(paths, 1);
+            let audio1 = paths[0];
 
             paths = relevantPaths.filter(path => path.includes(pair[1]));
 
-            let audio2 = stats.sample(paths, 1);
-            console.log(pair)
-            console.log(audio1 + "    " + audio2)
+            let audio2 = paths[0];
 
             timelineVariables.push(audioMatchingComponent.getTrial(audio1, audio2));
-   
+            
+            console.log(audio1 + " " + audio2)
         }
 
         stats.shuffleInPlace(timelineVariables);
