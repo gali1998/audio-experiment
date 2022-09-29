@@ -10,7 +10,10 @@ class familiarityComponent {
             prompt: '<p class="prompt">' + 'עד כמה הקול מוכר לך?' + "</p>    ",
             response_ends_trial: true,
             maintain_aspect_ratio: true,
-            stimulus_height: imageHeight
+            stimulus_height: imageHeight,
+            on_finish: function (data) {
+                data.audio = path;
+            }
         };
 
         return trial;
